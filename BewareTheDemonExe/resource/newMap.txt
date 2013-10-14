@@ -1,0 +1,34 @@
+HEADER header
+META height 5
+META width 5
+
+HEADER data
+OBJECT tile id 0 x 0 y 0 type wall isColidable 1 
+OBJECT tile id 1 x 1 y 0 type wall isColidable 1 
+OBJECT tile id 2 x 2 y 0 type wall isColidable 1 
+OBJECT tile id 3 x 3 y 0 type wall isColidable 1 
+OBJECT tile id 4 x 4 y 0 type wall isColidable 1 
+
+OBJECT tile id 5 x 0 y 1 type wall isColidable 1 
+OBJECT tile id 6 x 1 y 1 type wall isColidable 1 
+OBJECT tile id 7 x 2 y 1 type wall isColidable 1 
+OBJECT tile id 8 x 3 y 1 type wall isColidable 1 
+OBJECT tile id 9 x 4 y 1 type wall isColidable 1 
+
+OBJECT tile id 10 x 0 y 2 type wall isColidable 1 
+OBJECT tile id 11 x 1 y 2 type wall isColidable 1 
+OBJECT tile id 12 x 2 y 2 type wall isColidable 1 
+OBJECT tile id 13 x 3 y 2 type wall isColidable 1 
+OBJECT tile id 14 x 4 y 2 type wall isColidable 1 
+
+OBJECT tile id 15 x 0 y 3 type wall isColidable 1 
+OBJECT tile id 16 x 1 y 3 type wall isColidable 1 
+OBJECT tile id 17 x 2 y 3 type wall isColidable 1 
+OBJECT tile id 18 x 3 y 3 type wall isColidable 1 
+OBJECT tile id 19 x 4 y 3 type wall isColidable 1 
+
+OBJECT tile id 20 x 0 y 4 type wall isColidable 1 
+OBJECT tile id 21 x 1 y 4 type wall isColidable 1 
+OBJECT tile id 22 x 2 y 4 type wall isColidable 1 
+OBJECT tile id 23 x 3 y 4 type wall isColidable 1 
+OBJECT tile id 24 x 4 y 4 type wall isColidable 1 
