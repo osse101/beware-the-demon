@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7172B8B1-BC6F-4C02-AE76-356345E7CFDD}</ProjectGuid>
+    <RootNamespace>BewareTheDemonLib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\audiomanager.h" />
+    <ClInclude Include="headers\basicframe.h" />
+    <ClInclude Include="headers\constants.h" />
+    <ClInclude Include="headers\dungeonmodel.h" />
+    <ClInclude Include="headers\eventmanager.h" />
+    <ClInclude Include="headers\gamelogic.h" />
+    <ClInclude Include="headers\gamemodel.h" />
+    <ClInclude Include="headers\GameRunner.h" />
+    <ClInclude Include="headers\gameview.h" />
+    <ClInclude Include="headers\imagenode.h" />
+    <ClInclude Include="headers\imageobject.h" />
+    <ClInclude Include="headers\map.h" />
+    <ClInclude Include="headers\maploader.h" />
+    <ClInclude Include="headers\player.h" />
+    <ClInclude Include="headers\resources.h" />
+    <ClInclude Include="headers\stdafx.h" />
+    <ClInclude Include="headers\targetver.h" />
+    <ClInclude Include="headers\tile.h" />
+    <ClInclude Include="headers\timer.h" />
+    <ClInclude Include="headers\townmodel.h" />
+    <ClInclude Include="headers\ttftext.h" />
+    <ClInclude Include="headers\vector2d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\audioManager.cpp" />
+    <ClCompile Include="src\basicframe.cpp" />
+    <ClCompile Include="src\dungeonmodel.cpp" />
+    <ClCompile Include="src\gamelogic.cpp" />
+    <ClCompile Include="src\gamemodel.cpp" />
+    <ClCompile Include="src\gamerunner.cpp" />
+    <ClCompile Include="src\gameview.cpp" />
+    <ClCompile Include="src\map.cpp" />
+    <ClCompile Include="src\maploader.cpp" />
+    <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\resources.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\tile.cpp" />
+    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\townmodel.cpp" />
+    <ClCompile Include="src\ttftext.cpp" />
+    <ClCompile Include="src\vector2d.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
