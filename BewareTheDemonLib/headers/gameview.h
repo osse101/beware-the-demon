@@ -24,7 +24,8 @@ private:
 
 	GameModel* model;
 	GameState state;
-	SDL_Texture** tileList;
+	SDL_Texture* tileSpriteSheet;
+	SDL_Rect** tileClipList;
 	SDL_Texture* backGround;
 	
 	SDL_Window* gameWindow;

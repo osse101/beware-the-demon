@@ -87,6 +87,9 @@
       <Project>{7172b8b1-bc6f-4c02-ae76-356345e7cfdd}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\isometricAdjacencyTable.html" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

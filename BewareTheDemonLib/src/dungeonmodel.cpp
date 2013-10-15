@@ -47,6 +47,7 @@ void DungeonModel::loadMap(){
 }
 
 void DungeonModel::createNewMap(){
+	//TODO: Rewrite dungeon creation algorithim as a component of the project
 	//createNewDungeon = SDL_CreateThread( runCreateMapThread, (void*)NULL );
 }
 

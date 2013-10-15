@@ -16,7 +16,8 @@ void Resource::registerRenderer(SDL_Renderer* renderer){
 }
 
 Resource::Resource(){
-	tileList = NULL;
+	tileClipList = NULL;
+	tileSheet = NULL;
 	musicList = new std::map<std::string, Mix_Music*>();
 	soundList = new std::map<std::string, Mix_Chunk*>();
 	imageList = new std::map<std::string, SDL_Texture*>();
@@ -43,47 +44,46 @@ Resource::~Resource(){
 }
 
 void Resource::loadAllTiles(){
-	if( tileList != NULL ){
+	if( tileSheet != NULL ){
 		std::cout << "Tiles are already loaded!" << std::endl;
 		return;
 	}
 
-	tileList = new SDL_Texture*[(int)TILE_TYPE_COUNT];	
-
-	SDL_Surface* tileSet = IMG_Load( TILE_SPRITE_MAP.c_str() );
-
-	SDL_Rect thisTileRect;
-	thisTileRect.w = TILE_WIDTH;
-	thisTileRect.h = TILE_HEIGHT;
-
-
-	SDL_Surface* tempSurface = SDL_CreateRGBSurface( 0,	TILE_WIDTH,	TILE_HEIGHT+10, 32, 0, 0, 0, 0);
-
+	tileClipList = new SDL_Rect*[(int)TILE_TYPE_COUNT];	
+	
+	SDL_Surface* tileSheet_surface = IMG_Load( TILE_SPRITE_MAP.c_str() );
+	tileSheet = SDL_CreateTextureFromSurface(renderer, tileSheet_surface);
+	SDL_FreeSurface(tileSheet_surface);
+	
 	//Initialize the rectangles that are blitting the
 	//	loaded image
 	for( int i = 0; i < TILE_TILEMAP_ROWS; i++){
 		for( int j = 0; j < TILE_TILEMAP_COLS; j++ ){
 			int pos = i * TILE_TILEMAP_COLS + j;
-			
-			thisTileRect.x = j*TILE_WIDTH;
-			thisTileRect.y = i*TILE_HEIGHT;
-			SDL_BlitSurface(tileSet, &thisTileRect, tempSurface, NULL);
-			tileList[pos] = SDL_CreateTextureFromSurface(renderer, tempSurface);
+
+			SDL_Rect* thisTileRect = new SDL_Rect();
+			thisTileRect->w = TILE_WIDTH;
+			thisTileRect->h = TILE_HEIGHT;
+			thisTileRect->x = j*TILE_WIDTH;
+			thisTileRect->y = i*TILE_HEIGHT;
+			tileClipList[pos] = thisTileRect;
 		}
 	}
-	SDL_FreeSurface( tileSet );
-	SDL_FreeSurface( tempSurface );
 }
 
 void Resource::freeTiles(){
-	if( tileList != NULL ){
+	if( tileClipList != NULL ){
 		for( int i = 0; i < (int)TILE_TYPE_COUNT-1; i++ ){  //NULL tile is not created as a surface
-			if( tileList[i] != NULL ){
-				SDL_DestroyTexture( tileList[i] );
+			if( tileClipList[i] != NULL ){
+				delete tileClipList[i];
 			}
 		}
-		delete [] tileList;
-		tileList = NULL;
+		delete [] tileClipList;
+		tileClipList = NULL;
+	}
+	if( tileSheet != NULL ){
+		SDL_DestroyTexture( tileSheet );
+		tileSheet = NULL;
 	}
 }
 

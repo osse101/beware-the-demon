@@ -25,7 +25,6 @@ void MapLoader::clear(){
 
 }
 
-
 Map* MapLoader::loadMap(std::string fileName){
 	using namespace std;
 	Map* map = NULL;

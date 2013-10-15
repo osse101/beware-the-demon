@@ -7,7 +7,13 @@ static SDL_Texture* plantGuy;
 GameView::GameView(GameModel* gm){
 	model = gm;
 
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &gameWindow, &gameRenderer);
+	SDL_CreateWindowAndRenderer(
+		SCREEN_WIDTH, 
+		SCREEN_HEIGHT, 
+		0, 
+		&gameWindow, 
+		&gameRenderer);
+	SDL_SetWindowTitle(gameWindow, "Beware The Demon");
 	Resource::registerRenderer(gameRenderer);
 	state = GAME_BEGIN;
 	SDL_SetRenderDrawColor(gameRenderer, 0, 0, 0, 255);
@@ -78,8 +84,8 @@ void GameView::stateChange(GameState newState){
 
 			//Load tiles and player
 			r->loadAllTiles();
-			
-			tileList = r->getTiles();
+			tileSpriteSheet = r->getTiles();
+			tileClipList = r->getTileClips();
 			break;
 
 		default:
@@ -102,7 +108,7 @@ void GameView::stateChange(GameState newState){
 
 void GameView::update(){
 	 //Fill the screen blue
- 	SDL_SetRenderDrawColor(gameRenderer, 0x00, 0x00, 0xFF, 0xFF);
+ 	SDL_SetRenderDrawColor(gameRenderer, 0x00, 0x00, 0xFF, 0x00);
 	SDL_RenderClear(gameRenderer);
 
 	switch(state){
@@ -200,11 +206,11 @@ void GameView::updateDungeon(){
 			tempPoint->x = x;
 			tempPoint->y = y;
 
-
+			
 			if( pos >= map->getMapSize() || pos < 0 ){ break; }
 			TileType t = mapArray[pos]->getType();
 			if( t == TILE_NULL ){ continue; }
-			SDL_RenderCopy( gameRenderer, tileList[t], NULL, tempPoint); 
+			SDL_RenderCopy( gameRenderer, tileSpriteSheet, tileClipList[t], tempPoint); 
 			std::list<ImageObject*>* myList = mapArray[pos]->images;
 			if(myList != NULL && !myList->empty()){
 				std::list<ImageObject*>::reverse_iterator rit;
@@ -229,7 +235,7 @@ void GameView::updateDungeon(){
 			if( pos >= map->getMapSize() || pos < 0 ) break;
 			TileType t = mapArray[pos]->getType();
 			if( t==TILE_NULL ){ continue; }
-			SDL_RenderCopy( gameRenderer, tileList[t], NULL, tempPoint); 
+			SDL_RenderCopy( gameRenderer, tileSpriteSheet, tileClipList[t], tempPoint); 
 			std::list<ImageObject*>* myList = mapArray[pos]->images;
 			if(myList != NULL && !myList->empty()){
 				std::list<ImageObject*>::reverse_iterator rit;
