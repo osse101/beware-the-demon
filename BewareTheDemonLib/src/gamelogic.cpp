@@ -55,7 +55,7 @@ bool GameLogic::updateBegin( float secs ){
 		wait = true;
 
 	GameState oldState = state;
-	if( keysDown[SDLK_ESCAPE] )
+	if( keysDown[SDL_SCANCODE_ESCAPE] )
 		state = GAME_OVER;
 	else if( keysDown[SDL_SCANCODE_RETURN] ){
 
@@ -135,7 +135,7 @@ bool GameLogic::updateBegin( float secs ){
 bool GameLogic::updateTown( float secs ){
 	bool* keysDown = model->getKeysDown();
 	GameState oldState = state;
-	if( keysDown[SDLK_ESCAPE] )
+	if( keysDown[SDL_SCANCODE_ESCAPE] )
 		state = GAME_OVER;
 	else if( keysDown[SDL_SCANCODE_DOWN] || keysDown[SDLK_s]){
 		int mapExit = SCREEN_HEIGHT - PLAYER_HEIGHT;
@@ -151,8 +151,9 @@ bool GameLogic::updateTown( float secs ){
 bool GameLogic::updateDungeon( float secs ){
 	GameState oldState = state;
 	bool* keysDown = model->getKeysDown();
-	if( keysDown[SDLK_ESCAPE] )
+	if( keysDown[SDL_SCANCODE_ESCAPE] ){
 		state = GAME_OVER;
+	}
 	else{
 	
 	Map* map = model->getMap();
@@ -236,7 +237,7 @@ bool GameLogic::updateWin( float secs ){
 	GameState oldState = state;
 	bool* keysDown = model->getKeysDown();
 
-	if( keysDown[SDLK_ESCAPE] )
+	if( keysDown[SDL_SCANCODE_ESCAPE] )
 		state = GAME_OVER;
 	else{
 
