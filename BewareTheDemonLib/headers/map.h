@@ -32,6 +32,7 @@ public:
 	
 private:
 	//void setMap( std::vector<std::string>* newMap );
+
 	int mapHeight;
 	int mapWidth;
 	int mapSize;

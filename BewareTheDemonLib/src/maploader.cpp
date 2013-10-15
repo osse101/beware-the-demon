@@ -25,6 +25,34 @@ void MapLoader::clear(){
 
 }
 
+Map* MapLoader::createMap(){
+	Map* map = NULL;
+	int mapWidth=25;
+	int mapHeight=25;
+	int mapSize = mapWidth*mapHeight;
+	
+	Tile** tiles = new Tile*[mapSize];
+	for(int i=0; i<mapSize; i++){
+		tiles[i] = new Tile();
+	}
+
+	for(int i=0; i<mapWidth; i++){
+		for(int j=0; j<mapHeight; j++){
+			TileType t = TileType::TILE_GREEN;
+			if( i==0 || j==0 ||
+				i==mapWidth-1 || j==mapHeight-1){
+					t = TileType::TILE_CENTER;
+			}
+			int pos = i*mapHeight+j;
+			tiles[pos]->setType(t);
+		}
+	}
+	
+	map = new Map(tiles, mapWidth, mapHeight, new Vector2D(1,1), new Vector2D(mapWidth-2,mapHeight-2));
+
+	return map;
+}
+
 Map* MapLoader::loadMap(std::string fileName){
 	using namespace std;
 	Map* map = NULL;

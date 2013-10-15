@@ -42,7 +42,7 @@ void DungeonModel::cleanUp(){
 void DungeonModel::loadMap(){
 	//Cannot load the file while it is being written
 	SDL_SemWait( fileToLoad );
-	map = mapLoader->loadMap( NEXT_MAP_FILE );
+	map = mapLoader->createMap();
 	SDL_SemPost( fileToLoad );
 }
 

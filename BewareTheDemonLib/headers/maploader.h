@@ -11,6 +11,7 @@ class MapLoader{
 public:
 	MapLoader();
 	~MapLoader();
+	Map* createMap();
 	Map* loadMap(std::string fileName);
 	void clear();
 protected:
