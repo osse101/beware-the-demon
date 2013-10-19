@@ -15,7 +15,18 @@ public:
 protected:
 
 private:
+	//functions for constructing the dungeon
+	//TODO: some type of room
+	void addRoom();
+
 	SDL_semaphore* buildingDungeon;
+
+	//internal variabeles
+	int _mapHeight;
+	int _mapWidth;
+	Tile** _tiles;
+	
+
 };
 
 
