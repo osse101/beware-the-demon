@@ -40,12 +40,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)headers;D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)headers;D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -82,6 +82,7 @@
     <ClInclude Include="headers\audiomanager.h" />
     <ClInclude Include="headers\basicframe.h" />
     <ClInclude Include="headers\constants.h" />
+    <ClInclude Include="headers\dungeonbuilder.h" />
     <ClInclude Include="headers\dungeonmodel.h" />
     <ClInclude Include="headers\eventmanager.h" />
     <ClInclude Include="headers\gamelogic.h" />
@@ -91,7 +92,7 @@
     <ClInclude Include="headers\imagenode.h" />
     <ClInclude Include="headers\imageobject.h" />
     <ClInclude Include="headers\map.h" />
-    <ClInclude Include="headers\maploader.h" />
+    <ClInclude Include="headers\mapmanager.h" />
     <ClInclude Include="headers\player.h" />
     <ClInclude Include="headers\resources.h" />
     <ClInclude Include="headers\stdafx.h" />
@@ -105,13 +106,14 @@
   <ItemGroup>
     <ClCompile Include="src\audioManager.cpp" />
     <ClCompile Include="src\basicframe.cpp" />
+    <ClCompile Include="src\dungeonbuilder.cpp" />
     <ClCompile Include="src\dungeonmodel.cpp" />
     <ClCompile Include="src\gamelogic.cpp" />
     <ClCompile Include="src\gamemodel.cpp" />
     <ClCompile Include="src\gamerunner.cpp" />
     <ClCompile Include="src\gameview.cpp" />
     <ClCompile Include="src\map.cpp" />
-    <ClCompile Include="src\maploader.cpp" />
+    <ClCompile Include="src\mapmanager.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\resources.cpp" />
     <ClCompile Include="src\stdafx.cpp" />

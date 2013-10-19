@@ -3,8 +3,8 @@
 
 #include <string.h>
 
-#include "maploader.h"
 #include "map.h"
+#include "mapmanager.h"
 #include "stdafx.h"
 
 class DungeonModel{
@@ -25,14 +25,8 @@ public:
 private:
 	void start();
 	void cleanUp();
-	//Sprite List
-	//Boss List
-	//Chest List
-	//Dungeon Map
-
-	SDL_Thread* createNewDungeon;
+	
 	int currentLevel;
-	MapLoader* mapLoader;
 	Map* map;
 	
 };

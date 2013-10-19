@@ -87,12 +87,12 @@ void GameModel::stateChange(GameState newState){
 		
 		switch(oldState){
 		case GAME_BEGIN:
+			createNewMap();
 			loadMap();
-			//dm->createNewMap();
 			break;
 		case GAME_TOWN:
+			createNewMap();
 			loadMap();
-			//dm->createNewMap();
 			break;
 		default:
 			break;

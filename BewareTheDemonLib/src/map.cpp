@@ -1,35 +1,23 @@
 
 #include "..\headers\map.h"
 
-
-Map::Map(){
-	mapHeight = 0;
-	mapWidth = 0;
-	mapSize = 0;
-	map = NULL;
-
-	start = new Vector2D();
-	exit = new Vector2D();
-}
-
-Map::Map(Tile** map, int mapWidth, int mapHeight, Vector2D* start, Vector2D* exit){
-	this->map = map;
-	this->mapWidth = mapWidth;
-	this->mapHeight = mapHeight;
-	this->mapSize = mapWidth*mapHeight;
-	this->start = start;
-	this->exit = exit;
+Map::Map(Tile** map, int mapWidth, int mapHeight, Vector2D* start, Vector2D* exit):
+		map(map), 
+		mapWidth(mapWidth),
+		mapHeight(mapHeight),
+		start(start),
+		exit(exit){
+			mapSize = mapWidth*mapHeight;
 }
 
 Map::~Map(){
-	delete start;
-	delete exit;
+	DELETE(start);
+	DELETE(exit);
 
 	for( int t = 0; t < mapSize; t++ ){
-		delete map[t];
+		DELETE(map[t]);
 	}
-	delete [] map;
-	map = NULL;
+	DELETEARRAY(map);
 }
 
 TileType Map::getTileValue(int x, int y){
@@ -38,7 +26,11 @@ TileType Map::getTileValue(int x, int y){
 			std::cout << "Invalid map position attempt: " << x << "," << y << std::endl;
 			return TILE_NULL;
 	}
-	return map[x*mapHeight+y]->getType();
+	int pos = x*mapHeight+y;
+	if(map[pos]==NULL){
+		std::cout << "Map Tile is undefined: " << x << "," << y << std::endl;
+	}
+	return map[pos]->getType();
 }
 
 
