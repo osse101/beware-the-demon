@@ -17,7 +17,7 @@ protected:
 private:
 	//functions for constructing the dungeon
 	//TODO: some type of room
-	void addRoom();
+	void addRoom(const SDL_Rect &dimensions);
 
 	SDL_semaphore* buildingDungeon;
 

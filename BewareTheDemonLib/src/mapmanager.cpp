@@ -34,7 +34,7 @@ Map* MapManager::getMapRelative(int bias){
 }
 
 Map* MapManager::createNextMap(){
-	Map* newMap = dungeonBuilder->buildDungeon(25, 25);
+	Map* newMap = dungeonBuilder->buildDungeon(50, 50);
 	maps->push_back(newMap);
 	return newMap;
 }

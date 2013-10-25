@@ -40,7 +40,10 @@ Map* DungeonBuilder::buildDungeon(int mapWidth, int mapHeight){
 		}
 	}
 	//add a test room
-	addRoom();
+	SDL_Rect roomRect;
+	roomRect.x = 5; roomRect.y= 5 ;
+	roomRect.w = 5; roomRect.h= 5 ;
+	addRoom(roomRect);
 
 	newMap = new Map(_tiles, mapWidth, mapHeight, startPoint, exitPoint);
 	//SDL_SemPost( buildingDungeon );
@@ -49,17 +52,18 @@ Map* DungeonBuilder::buildDungeon(int mapWidth, int mapHeight){
 }
 
 
-void DungeonBuilder::addRoom(){
-	//TODO: takes a subsection of the actual tiles array being built
-	//	and inserts a room into that
-	for(int i=5; i<11; i++){
-		for(int j=5; j<11; j++){
-			if( (i==5 && j!=7) || (i==10 && j!=7) || j==5 || j==10 ){
-				_tiles[i*_mapHeight+j]->setType(TileType::TILE_CENTER);
+void DungeonBuilder::addRoom(const SDL_Rect &dimensions){
+	SDL_assert( dimensions.x >= 0 &&
+				dimensions.y >= 0 &&
+				dimensions.x + dimensions.w < _mapWidth &&
+				dimensions.y + dimensions.h < _mapHeight);
+
+	for(int x=dimensions.x; x<dimensions.x+dimensions.w; x++){
+		for(int y=dimensions.y; y<dimensions.y+dimensions.h; y++){
+			if( (x==5 && y!=7) || (x==9 && y!=7) || (x!=7 && y==5) || (x!=7 && y==9) ){
+				_tiles[x*_mapHeight+y]->setType(TileType::TILE_CENTER);
 			}
 		}
 	}
-	
-	
 
 }
