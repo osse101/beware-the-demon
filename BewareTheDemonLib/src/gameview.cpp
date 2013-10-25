@@ -129,7 +129,6 @@ void GameView::update(){
 		break;
 	}
 	
-	SDL_Delay(50);
 	SDL_RenderPresent( gameRenderer );
 
 }
@@ -161,29 +160,6 @@ void GameView::updateDungeon(){
 	Tile** mapArray = map->getMapArray();
 	SDL_Rect* camera = model->getCamera();
 	SDL_Rect* player = model->getPlayer();
-
-	/*
-	//Draw every tile within the camera's vision
-	//	Square map algorithm
-	SDL_Rect* tileRect = new SDL_Rect();{
-		tileRect->w = TILE_WIDTH;
-		tileRect->h = TILE_HEIGHT;
-	}
-	for( int i = camera->x/TILE_WIDTH; i < (1 + 2*(camera->x + camera->w) / TILE_WIDTH); i++ ){
-		for( int j = camera->y/TILE_HEIGHT; j < 2*(1 + (camera->y + camera->h) / TILE_HEIGHT); j++){
-			int x = i * TILE_WIDTH - camera->x;
-			int y = j * TILE_HEIGHT - camera->y;
-			int pos = i * map->getMapHeight() + j;
-			tileRect->x = x;
-			tileRect->y = y;
-
-			if( pos >= map->getMapSize() || pos < 0 ) break;
-			TileType t = mapArray[pos]->getType();
-			if(j%2==1){x+=TILE_WIDTH/2;}
-			SDL_RenderCopy(gameRenderer, tileList[t], NULL, tileRect);
-		}
-	}
-	*/
 
 	//Diamond map algorithm
 	int tempX;

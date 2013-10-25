@@ -167,9 +167,10 @@ bool GameLogic::updateDungeon( float secs ){
 
 	if( keysDown[SDL_SCANCODE_UP] ){
 		player->y -= distY;
-		int playerPosX = (int)(player->x+0.5f)/TILE_WIDTH;
-		int playerPosY = (int)(player->y+0.5f)/TILE_HEIGHT;
+		int playerPosX = (int)(player->x+player->w/2)/TILE_WIDTH ;
+		int playerPosY = (int)(player->y+player->h/2)/TILE_HEIGHT;
 		if( map->getTileValue(playerPosX, playerPosY) == TILE_CENTER )
+			//undo player movement
 			player->y += (TILE_HEIGHT-player->y%TILE_HEIGHT);
 	}
 	if( keysDown[SDL_SCANCODE_DOWN] ){
