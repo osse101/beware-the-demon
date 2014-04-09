@@ -40,8 +40,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir)headers;D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\include;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\include;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\include;D:\Libraries\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>D:\Libraries\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;D:\Libraries\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(ProjectDir)headers;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_ttf-2.0.12\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_mixer-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_image-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)third_party\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
