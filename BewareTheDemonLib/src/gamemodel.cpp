@@ -10,10 +10,8 @@ GameModel::GameModel(){
 	for( int i=0; i<MAX_KEYS_USED; i++)
 		keysDown[i] = false;
 
-	player = new SDL_Rect();
-	player->x = 0; player->y = 0;
-	player->w = PLAYER_WIDTH; player->h = PLAYER_HEIGHT;
-
+	player = new Player();
+	
 	playerView = new SDL_Rect();
 	playerView->x=0; playerView->y=0;
 	playerView->w=PLAYER_WIDTH; playerView->h=PLAYER_HEIGHT/2;
@@ -75,8 +73,7 @@ void GameModel::stateChange(GameState newState){
 		//dm->createNewMap();
 		switch(oldState){
 		case GAME_BEGIN:
-			player->x = TOWN_PLAYER_START_X;
-			player->y = TOWN_PLAYER_START_Y;
+			player->pos(Vector2D(TOWN_PLAYER_START_X, TOWN_PLAYER_START_Y));
 			break;
 		default:
 			break;
@@ -102,8 +99,7 @@ void GameModel::stateChange(GameState newState){
 	case GAME_WIN:
 		switch(oldState){
 		case GAME_DUNGEON:
-			player->x = WIN_PLAYER_START_X;
-			player->y = WIN_PLAYER_START_Y;
+			player->pos(Vector2D(WIN_PLAYER_START_X, WIN_PLAYER_START_Y));
 			break;
 		default:
 			break;
@@ -145,8 +141,9 @@ void GameModel::createNewMap(){
 void GameModel::loadMap(){
 	dm->loadMap();
 	Map* map = dm->getMap();
-	player->x = (float)(map->getStart()->x * TILE_WIDTH);
-	player->y = (float)(map->getStart()->y * TILE_HEIGHT);
+	player->pos(Vector2D(
+		(float)(map->getStart()->x * TILE_WIDTH),
+		(float)(map->getStart()->y * TILE_HEIGHT)));
 }
 
 void GameModel::updateBegin(){

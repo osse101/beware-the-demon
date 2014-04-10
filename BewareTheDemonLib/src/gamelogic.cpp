@@ -139,8 +139,8 @@ bool GameLogic::updateTown( float secs ){
 		state = GAME_OVER;
 	else if( keysDown[SDL_SCANCODE_DOWN] || keysDown[SDLK_s]){
 		int mapExit = SCREEN_HEIGHT - PLAYER_HEIGHT;
-		model->getPlayer()->y += (float)MOVE_SPEED_VERTICAL*secs;
-		if( (int)(model->getPlayer()->y) >= mapExit ){
+		model->getPlayer()->pos()->y += (float)MOVE_SPEED_VERTICAL*secs;
+		if( (int)(model->getPlayer()->pos()->y) >= mapExit ){
 			state = GAME_DUNGEON;
 			audio->playMusic( START_MUSIC );
 		}
@@ -157,7 +157,8 @@ bool GameLogic::updateDungeon( float secs ){
 	else{
 	
 	Map* map = model->getMap();
-	SDL_Rect* player = model->getPlayer();
+	Player* player = model->getPlayer();
+	Vector2D* playerPos = player->pos();	//mutable
 	SDL_Rect* camera = model->getCamera();
 
 	int mapHeightInPixels = map->getMapHeight() * TILE_HEIGHT;
@@ -166,39 +167,48 @@ bool GameLogic::updateDungeon( float secs ){
 	int distY = MOVE_SPEED_VERTICAL*secs;
 
 	if( keysDown[SDL_SCANCODE_UP] ){
-		player->y -= distY;
-		int playerPosX = (int)(player->x+player->w/2)/TILE_WIDTH ;
-		int playerPosY = (int)(player->y+player->h/2)/TILE_HEIGHT;
-		if( map->getTileValue(playerPosX, playerPosY) == TILE_CENTER )
+		playerPos->y -= distY;
+		int playerPosXL = playerPos->x/TILE_WIDTH;						//left side
+		int playerPosXR = (playerPos->x + PLAYER_WIDTH)/TILE_WIDTH;		//right side
+		int playerPosY = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;	//top half
+		if( map->getTileValue(playerPosXL, playerPosY)==TILE_CENTER ||		//check top-left
+			map->getTileValue(playerPosXR, playerPosY)==TILE_CENTER)		//check top-right
 			//undo player movement
-			player->y += (TILE_HEIGHT-player->y%TILE_HEIGHT);
+			playerPos->y += (TILE_HEIGHT - ((int)playerPos->y+PLAYER_HEIGHT/2)%TILE_HEIGHT);
 	}
 	if( keysDown[SDL_SCANCODE_DOWN] ){
-		player->y += distY;
-		int playerPosX = (int)(player->x+0.5f)/TILE_WIDTH;
-		int playerPosY = (int)(player->y+0.5f)/TILE_HEIGHT;
-		if( map->getTileValue(playerPosX, playerPosY) == TILE_CENTER )
-			player->y = player->y - player->y%TILE_HEIGHT - PLAYER_HEIGHT;
+		playerPos->y += distY;
+		int playerPosXL = playerPos->x/TILE_WIDTH;
+		int playerPosXR = (playerPos->x + PLAYER_WIDTH)/TILE_WIDTH;		
+		int playerPosY = (playerPos->y+PLAYER_HEIGHT)/TILE_HEIGHT;	//bottom half
+		if( map->getTileValue(playerPosXL, playerPosY)==TILE_CENTER ||
+			map->getTileValue(playerPosXR, playerPosY)==TILE_CENTER)
+			//undo player movement
+			playerPos->y -= (((int)playerPos->y+PLAYER_HEIGHT)%TILE_HEIGHT);
 	}
 	if( keysDown[SDL_SCANCODE_RIGHT] ){
-		player->x += distX;
-		int playerPosX = (int)(player->x+0.5f)/TILE_WIDTH;
-		int playerPosY = (int)(player->y+0.5f)/TILE_HEIGHT;
-		if( map->getTileValue(playerPosX, playerPosY) == TILE_CENTER )
-			player->x = player->x - (player->x)%TILE_WIDTH - PLAYER_WIDTH;
+		playerPos->x += distX;
+		int playerPosX = (playerPos->x+PLAYER_WIDTH*2)/TILE_WIDTH;	//RIGHT HALF
+		int playerPosYT = playerPos->y/TILE_HEIGHT;						//top
+		int playerPosYB = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;	//bottom
+		if(map->getTileValue(playerPosX, playerPosYT)==TILE_CENTER ||	//check top-right
+			map->getTileValue(playerPosX, playerPosYB)==TILE_CENTER)	//check top-left
+			playerPos->x -= ((int)playerPos->x+PLAYER_WIDTH*2)%TILE_WIDTH;
 	}
 	if( keysDown[SDL_SCANCODE_LEFT] ){
-		player->x -= distX;
-		int playerPosX = (int)(player->x+0.5f)/TILE_WIDTH;
-		int playerPosY = (int)(player->y+0.5f)/TILE_HEIGHT;
-		if( map->getTileValue(playerPosX, playerPosY) == TILE_CENTER )
-			player->x += TILE_WIDTH-player->x%TILE_WIDTH;
+		playerPos->x -= distX;
+		int playerPosX = (playerPos->x+PLAYER_WIDTH)/TILE_WIDTH;					//LEFT HALF
+		int playerPosYT = playerPos->y/TILE_HEIGHT;
+		int playerPosYB = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;
+		if(map->getTileValue(playerPosX, playerPosYT)==TILE_CENTER ||	
+			map->getTileValue(playerPosX, playerPosYB)==TILE_CENTER)	
+			playerPos->x += (TILE_WIDTH - ((int)playerPos->x+PLAYER_WIDTH)%TILE_WIDTH);
 	}
-
+	
 	int exitX = map->getExit()->x * TILE_WIDTH;
 	int exitY = map->getExit()->y * TILE_HEIGHT;
-	if( player->x+PLAYER_WIDTH/2 < exitX+TILE_WIDTH   && player->x+PLAYER_WIDTH/2 > exitX &&
-		player->y+PLAYER_HEIGHT/2 < exitY+TILE_HEIGHT && player->y+PLAYER_HEIGHT/2 > exitY ){
+	if( playerPos->x+PLAYER_WIDTH/2 < exitX+TILE_WIDTH   && playerPos->x+PLAYER_WIDTH/2 > exitX &&
+		playerPos->y+PLAYER_HEIGHT/2 < exitY+TILE_HEIGHT && playerPos->y+PLAYER_HEIGHT/2 > exitY ){
 
 		model->setLevel(model->getLevel()+1);
 		
@@ -211,16 +221,18 @@ bool GameLogic::updateDungeon( float secs ){
 		}
 	}
 	
-	if( player->x < 0 ) player->x = 0;
-	if( player->x + player->w > mapWidthInPixels ) player->x = mapWidthInPixels - player->w;
-	if( player->y < 0 ) player->y = 0;
-	if( player->y + player->h > mapHeightInPixels ) player->y = mapHeightInPixels - player->h;
+	if( playerPos->x < 0 ) playerPos->x = 0;
+	if( playerPos->x + PLAYER_WIDTH > mapWidthInPixels ) playerPos->x = mapWidthInPixels - PLAYER_WIDTH;
+	if( playerPos->y < 0 ) playerPos->y = 0;
+	if( playerPos->y + PLAYER_HEIGHT > mapHeightInPixels ) playerPos->y = mapHeightInPixels - PLAYER_HEIGHT;
+
+	player->pos(*playerPos);
 
 	SDL_Rect* playerView = model->getPlayerView();
 	int offsetX = (map->getMapWidth()-1)*TILE_WIDTH/2;
 
-	playerView->x = offsetX + (player->x/(float)TILE_WIDTH - player->y/(float)TILE_HEIGHT)*TILE_WIDTH/2;
-	playerView->y = (player->x/(float)TILE_WIDTH + player->y/(float)TILE_HEIGHT)*TILE_HEIGHT/2;
+	playerView->x = offsetX + (playerPos->x/(float)TILE_WIDTH - playerPos->y/(float)TILE_HEIGHT)*TILE_WIDTH/2;
+	playerView->y = (playerPos->x/(float)TILE_WIDTH + playerPos->y/(float)TILE_HEIGHT)*TILE_HEIGHT/2;
 
 	camera->x = playerView->x - SCREEN_WIDTH/2;
 	camera->y = playerView->y - SCREEN_HEIGHT/2;
@@ -242,13 +254,13 @@ bool GameLogic::updateWin( float secs ){
 		state = GAME_OVER;
 	else{
 
-		SDL_Rect* player = model->getPlayer();
+/*		SDL_Rect* player = model->getPlayer();
 		if( keysDown[SDL_SCANCODE_UP] ){
 			player->y -= MOVE_SPEED_VERTICAL*secs;
 			if( player->x == TOWN_PLAYER_START_X && player->y <= TOWN_PLAYER_START_Y )
 				state = GAME_OVER;
 		}
-
+*/
 
 
 	}

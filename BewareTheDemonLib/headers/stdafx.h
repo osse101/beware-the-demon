@@ -22,7 +22,7 @@
 //Local files
 #include "constants.h"
 #include "targetver.h"
-#include "vector2d.h"
+#include "util.h"
 
 #ifdef NULL
 	#define DELETE(p) if(p!=NULL){delete p;p=NULL;}else{}
