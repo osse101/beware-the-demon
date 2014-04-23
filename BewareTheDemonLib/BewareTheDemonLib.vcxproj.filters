@@ -75,9 +75,6 @@
     <ClInclude Include="headers\ttftext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\vector2d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\dungeonbuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,9 +129,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ttftext.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vector2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dungeonbuilder.cpp">

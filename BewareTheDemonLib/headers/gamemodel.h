@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "dungeonmodel.h"
 #include "townmodel.h"
+#include "player.h"
 
 class GameModel{
 public:
@@ -22,8 +23,8 @@ public:
 	int getLevel(){return dm->getLevel();}
 	void setLevel(int newVal){dm->setLevel(newVal);}
 	Map* getMap(){return dm->getMap();}
+	Player* getPlayer(){return player;}
 
-	SDL_Rect* getPlayer(){return player;}
 	SDL_Rect* getPlayerView(){return playerView;}
 	SDL_Rect* getCamera(){return camera;}
 	SDL_Rect* getCursor(){return cursor;}
@@ -35,8 +36,8 @@ private:
 
 	GameState state;
 	bool* keysDown;
+	Player* player;
 	SDL_Rect* camera;
-	SDL_Rect* player;
 	SDL_Rect* playerView;
 	SDL_Rect* cursor;
 	

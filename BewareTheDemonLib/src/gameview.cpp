@@ -148,18 +148,17 @@ void GameView::updateBegin(){
 }
 
 void GameView::updateTown(){
-	SDL_Rect* player = model->getPlayer();
+	//Player* player = model->getPlayer();
 	SDL_Texture* playerSprite = Resource::getInstance()->loadImage( PLAYER_SPRITE );
 
 	SDL_RenderCopy(gameRenderer, backGround, NULL, NULL);
-	SDL_RenderCopy(gameRenderer, playerSprite, NULL, player);
+	//SDL_RenderCopy(gameRenderer, playerSprite, NULL, player);
 }
 
 void GameView::updateDungeon(){
 	Map* map = model->getMap();
 	Tile** mapArray = map->getMapArray();
 	SDL_Rect* camera = model->getCamera();
-	SDL_Rect* player = model->getPlayer();
 
 	//Diamond map algorithm
 	int tempX;
@@ -236,10 +235,10 @@ void GameView::updateDungeon(){
 }
 
 void GameView::updateWin(){
-	SDL_Rect* player = model->getPlayer();
+	Player* player = model->getPlayer();
 	SDL_Texture* playerSprite = Resource::getInstance()->loadImage( PLAYER_SPRITE );
 	SDL_Texture* goldSprite = Resource::getInstance()->loadImage( GOLD_SPRITE );
-	
+
 	SDL_Rect gRect1 = SDL_Rect();
 	SDL_Rect gRect2 = SDL_Rect();
 	gRect1.x = SCREEN_WIDTH*1/5;
@@ -251,7 +250,7 @@ void GameView::updateWin(){
 	gRect2.w = gRect2.h = 100;
 
 	SDL_RenderCopy(gameRenderer, backGround, NULL, NULL);
-	SDL_RenderCopy(gameRenderer, playerSprite, NULL, player);
+	//SDL_RenderCopy(gameRenderer, playerSprite, NULL, player);
 	SDL_RenderCopy(gameRenderer, goldSprite, NULL, &gRect1);
 	SDL_RenderCopy(gameRenderer, goldSprite, NULL, &gRect2);
 }

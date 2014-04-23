@@ -42,7 +42,7 @@ Map* DungeonBuilder::buildDungeon(int mapWidth, int mapHeight){
 	//add a test room
 	SDL_Rect roomRect;
 	roomRect.x = 5; roomRect.y= 5 ;
-	roomRect.w = 5; roomRect.h= 5 ;
+	roomRect.w = 8; roomRect.h= 8 ;
 	addRoom(roomRect);
 
 	newMap = new Map(_tiles, mapWidth, mapHeight, startPoint, exitPoint);
@@ -57,10 +57,13 @@ void DungeonBuilder::addRoom(const SDL_Rect &dimensions){
 				dimensions.y >= 0 &&
 				dimensions.x + dimensions.w < _mapWidth &&
 				dimensions.y + dimensions.h < _mapHeight);
-
+	//test room; hardcoded
 	for(int x=dimensions.x; x<dimensions.x+dimensions.w; x++){
 		for(int y=dimensions.y; y<dimensions.y+dimensions.h; y++){
-			if( (x==5 && y!=7) || (x==9 && y!=7) || (x!=7 && y==5) || (x!=7 && y==9) ){
+			if( (x==dimensions.x && (y!=7||y!=8))		||	//entryways
+				(x==dimensions.w && (y!=7||y!=8))		|| 
+				((x!=7||x!=8)    && y==dimensions.y)	|| 
+				((x!=7||x!=8)	 && y==dimensions.h) ){
 				_tiles[x*_mapHeight+y]->setType(TileType::TILE_CENTER);
 			}
 		}
