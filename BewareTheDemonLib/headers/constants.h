@@ -43,8 +43,10 @@ const int TILE_TILEMAP_COLS = 4;
 
 //Player constants
 const std::string PLAYER_SPRITE = image_path+"myChar100.png";
-const int PLAYER_WIDTH = 30;
-const int PLAYER_HEIGHT = 30;
+const int PLAYER_WIDTH = 20;
+const int PLAYER_HEIGHT = 20;
+const int PLAYER_COLLISION_WIDTH = PLAYER_WIDTH;
+const int PLAYER_COLLISION_HEIGHT = PLAYER_HEIGHT;
 const int MOVE_SPEED_VERTICAL = TILE_HEIGHT*5;
 const int MOVE_SPEED_HORIZONTAL = TILE_WIDTH*5;
 

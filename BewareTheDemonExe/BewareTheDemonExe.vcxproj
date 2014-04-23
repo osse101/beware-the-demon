@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>call $(ProjectDir)postBuild.bat  $(SolutionDir) $(OutputPath) </Command>

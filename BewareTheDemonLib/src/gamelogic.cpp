@@ -158,7 +158,8 @@ bool GameLogic::updateDungeon( float secs ){
 	
 	Map* map = model->getMap();
 	Player* player = model->getPlayer();
-	Vector2D* playerPos = player->pos();	//mutable
+	Vector2D playerPos(*(player->pos()));	
+	SDL_Rect playerCollision(*player->getCollisionRect());
 	SDL_Rect* camera = model->getCamera();
 
 	int mapHeightInPixels = map->getMapHeight() * TILE_HEIGHT;
@@ -166,48 +167,49 @@ bool GameLogic::updateDungeon( float secs ){
 	int distX = MOVE_SPEED_HORIZONTAL*secs;
 	int distY = MOVE_SPEED_VERTICAL*secs;
 
+	//TODO: revisit when an appropriate sprite is loaded
 	if( keysDown[SDL_SCANCODE_UP] ){
-		playerPos->y -= distY;
-		int playerPosXL = playerPos->x/TILE_WIDTH;						//left side
-		int playerPosXR = (playerPos->x + PLAYER_WIDTH)/TILE_WIDTH;		//right side
-		int playerPosY = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;	//top half
-		if( map->getTileValue(playerPosXL, playerPosY)==TILE_CENTER ||		//check top-left
-			map->getTileValue(playerPosXR, playerPosY)==TILE_CENTER)		//check top-right
+		playerPos.y -= distY;
+		int tileXL = (playerPos.x+playerCollision.x)/static_cast<float>(TILE_WIDTH);						//left side
+		int tileXR = (playerPos.x+playerCollision.x+playerCollision.w)/static_cast<float>(TILE_WIDTH);		//right side
+		int tileY = (playerPos.y+playerCollision.y)/static_cast<float>(TILE_HEIGHT);	//top half
+		if( map->getTileValue(tileXL, tileY)==TILE_CENTER ||		//check top-left
+			map->getTileValue(tileXR, tileY)==TILE_CENTER)		//check top-right
 			//undo player movement
-			playerPos->y += (TILE_HEIGHT - ((int)playerPos->y+PLAYER_HEIGHT/2)%TILE_HEIGHT);
+			playerPos.y += (TILE_HEIGHT - ((int)playerPos.y+playerCollision.y)%TILE_HEIGHT);
 	}
 	if( keysDown[SDL_SCANCODE_DOWN] ){
-		playerPos->y += distY;
-		int playerPosXL = playerPos->x/TILE_WIDTH;
-		int playerPosXR = (playerPos->x + PLAYER_WIDTH)/TILE_WIDTH;		
-		int playerPosY = (playerPos->y+PLAYER_HEIGHT)/TILE_HEIGHT;	//bottom half
-		if( map->getTileValue(playerPosXL, playerPosY)==TILE_CENTER ||
-			map->getTileValue(playerPosXR, playerPosY)==TILE_CENTER)
+		playerPos.y += distY;
+		int tileXL = (playerPos.x+playerCollision.x)/static_cast<float>(TILE_WIDTH);						//left side
+		int tileXR = (playerPos.x+playerCollision.x+playerCollision.w)/static_cast<float>(TILE_WIDTH);		//right side
+		int tileY = (playerPos.y+playerCollision.y+playerCollision.h)/static_cast<float>(TILE_HEIGHT);		//bot half
+		if( map->getTileValue(tileXL, tileY)==TILE_CENTER ||
+			map->getTileValue(tileXR, tileY)==TILE_CENTER)
 			//undo player movement
-			playerPos->y -= (((int)playerPos->y+PLAYER_HEIGHT)%TILE_HEIGHT);
+			playerPos.y -= (((int)playerPos.y+playerCollision.y+playerCollision.h)%TILE_HEIGHT) +1;
 	}
 	if( keysDown[SDL_SCANCODE_RIGHT] ){
-		playerPos->x += distX;
-		int playerPosX = (playerPos->x+PLAYER_WIDTH*2)/TILE_WIDTH;	//RIGHT HALF
-		int playerPosYT = playerPos->y/TILE_HEIGHT;						//top
-		int playerPosYB = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;	//bottom
-		if(map->getTileValue(playerPosX, playerPosYT)==TILE_CENTER ||	//check top-right
-			map->getTileValue(playerPosX, playerPosYB)==TILE_CENTER)	//check top-left
-			playerPos->x -= ((int)playerPos->x+PLAYER_WIDTH*2)%TILE_WIDTH;
+		playerPos.x += distX;
+		int tileX  = (playerPos.x+playerCollision.x+playerCollision.w)/static_cast<float>(TILE_WIDTH);	//right side
+		int tileYT = (playerPos.y+playerCollision.y)/static_cast<float>(TILE_HEIGHT);					//top
+		int tileYB = (playerPos.y+playerCollision.y+playerCollision.h)/static_cast<float>(TILE_HEIGHT);	//bottom
+		if( map->getTileValue(tileX, tileYT)==TILE_CENTER ||	//check top-right
+			map->getTileValue(tileX, tileYB)==TILE_CENTER)	//check top-left
+			playerPos.x -= ((int)playerPos.x+playerCollision.x+playerCollision.w)%TILE_WIDTH +1;
 	}
 	if( keysDown[SDL_SCANCODE_LEFT] ){
-		playerPos->x -= distX;
-		int playerPosX = (playerPos->x+PLAYER_WIDTH)/TILE_WIDTH;					//LEFT HALF
-		int playerPosYT = playerPos->y/TILE_HEIGHT;
-		int playerPosYB = (playerPos->y+PLAYER_HEIGHT/2)/TILE_HEIGHT;
-		if(map->getTileValue(playerPosX, playerPosYT)==TILE_CENTER ||	
-			map->getTileValue(playerPosX, playerPosYB)==TILE_CENTER)	
-			playerPos->x += (TILE_WIDTH - ((int)playerPos->x+PLAYER_WIDTH)%TILE_WIDTH);
+		playerPos.x -= distX;
+		int tileX  = (playerPos.x+playerCollision.x)/TILE_WIDTH;					//left side
+		int tileYT = (playerPos.y+playerCollision.y)/TILE_HEIGHT;					//top 
+		int tileYB = (playerPos.y+playerCollision.y+playerCollision.h)/static_cast<float>(TILE_HEIGHT);//bottom
+		if( map->getTileValue(tileX, tileYT)==TILE_CENTER ||	
+			map->getTileValue(tileX, tileYB)==TILE_CENTER)	
+			playerPos.x += (TILE_WIDTH - ((int)playerPos.x+playerCollision.x)%TILE_WIDTH);
 	}
 	
 	int exitX = map->getExit()->x * TILE_WIDTH;
 	int exitY = map->getExit()->y * TILE_HEIGHT;
-	if( playerPos->x+PLAYER_WIDTH/2 < exitX+TILE_WIDTH   && playerPos->x+PLAYER_WIDTH/2 > exitX &&
+/*	if( playerPos->x+PLAYER_WIDTH/2 < exitX+TILE_WIDTH   && playerPos->x+PLAYER_WIDTH/2 > exitX &&
 		playerPos->y+PLAYER_HEIGHT/2 < exitY+TILE_HEIGHT && playerPos->y+PLAYER_HEIGHT/2 > exitY ){
 
 		model->setLevel(model->getLevel()+1);
@@ -220,19 +222,20 @@ bool GameLogic::updateDungeon( float secs ){
 			model->createNewMap();
 		}
 	}
+*/
 	
-	if( playerPos->x < 0 ) playerPos->x = 0;
-	if( playerPos->x + PLAYER_WIDTH > mapWidthInPixels ) playerPos->x = mapWidthInPixels - PLAYER_WIDTH;
-	if( playerPos->y < 0 ) playerPos->y = 0;
-	if( playerPos->y + PLAYER_HEIGHT > mapHeightInPixels ) playerPos->y = mapHeightInPixels - PLAYER_HEIGHT;
+	if( playerPos.x < 0 ) playerPos.x = 0;
+	if( playerPos.x + PLAYER_WIDTH > mapWidthInPixels ) playerPos.x = mapWidthInPixels - PLAYER_WIDTH;
+	if( playerPos.y < 0 ) playerPos.y = 0;
+	if( playerPos.y + PLAYER_HEIGHT > mapHeightInPixels ) playerPos.y = mapHeightInPixels - PLAYER_HEIGHT;
 
-	player->pos(*playerPos);
+	player->pos(playerPos);
 
 	SDL_Rect* playerView = model->getPlayerView();
 	int offsetX = (map->getMapWidth()-1)*TILE_WIDTH/2;
 
-	playerView->x = offsetX + (playerPos->x/(float)TILE_WIDTH - playerPos->y/(float)TILE_HEIGHT)*TILE_WIDTH/2;
-	playerView->y = (playerPos->x/(float)TILE_WIDTH + playerPos->y/(float)TILE_HEIGHT)*TILE_HEIGHT/2;
+	playerView->x = offsetX + (playerPos.x/(float)TILE_WIDTH - playerPos.y/(float)TILE_HEIGHT)*TILE_WIDTH/2;
+	playerView->y = (playerPos.x/(float)TILE_WIDTH + playerPos.y/(float)TILE_HEIGHT)*TILE_HEIGHT/2;
 
 	camera->x = playerView->x - SCREEN_WIDTH/2;
 	camera->y = playerView->y - SCREEN_HEIGHT/2;
@@ -243,6 +246,9 @@ bool GameLogic::updateDungeon( float secs ){
 	if( camera->y + camera->h > mapHeightInPixels ) camera->y = mapHeightInPixels - camera->h;
 
 	}
+
+	
+
 	return oldState != state;
 }
 
