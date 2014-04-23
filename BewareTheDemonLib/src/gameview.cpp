@@ -148,11 +148,14 @@ void GameView::updateBegin(){
 }
 
 void GameView::updateTown(){
-	//Player* player = model->getPlayer();
 	SDL_Texture* playerSprite = Resource::getInstance()->loadImage( PLAYER_SPRITE );
+	Player* p = model->getPlayer();
+	SDL_Rect player(*(p->getCollisionRect()));
+	player.x = p->pos()->x;
+	player.y = p->pos()->y;
 
 	SDL_RenderCopy(gameRenderer, backGround, NULL, NULL);
-	//SDL_RenderCopy(gameRenderer, playerSprite, NULL, player);
+	SDL_RenderCopy(gameRenderer, playerSprite, NULL, &player);
 }
 
 void GameView::updateDungeon(){
