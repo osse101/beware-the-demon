@@ -6,8 +6,10 @@
 #include "tile.h"
 #include "stdafx.h"
 #include "ttftext.h"
+
 #include <map>
 #include <string>
+#include <pugixml.hpp>
 
 typedef std::map<std::string, Mix_Music*> musicMap;
 typedef std::map<std::string, Mix_Chunk*> soundMap;

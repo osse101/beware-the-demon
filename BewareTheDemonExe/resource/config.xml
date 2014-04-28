@@ -1,0 +1,3 @@
+<SpriteSheet name="sheet.bmp">
+    <Sprite name="sprite" x="10" y="10" />
+</SpriteSheet>

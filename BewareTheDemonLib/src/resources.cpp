@@ -22,6 +22,11 @@ Resource::Resource(){
 	soundList = new soundMap();
 	imageList = new imageMap();
 	spriteSheetList = new spriteSheetMap();
+
+	//pugi::xml_document doc;
+	//std::string configFile = resource_path + "config.xml";
+	//pugi::xml_parse_result result = doc.load_file(configFile.c_str());
+	//std::cout  << "Load result: " << result.description() << ", sheet name: " << doc.child("SpriteSheet").attribute("name").value() << std::endl;
 }
 
 Resource::~Resource(){
