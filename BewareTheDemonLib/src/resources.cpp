@@ -23,10 +23,6 @@ Resource::Resource(){
 	imageList = new imageMap();
 	spriteSheetList = new spriteSheetMap();
 
-	//pugi::xml_document doc;
-	//std::string configFile = resource_path + "config.xml";
-	//pugi::xml_parse_result result = doc.load_file(configFile.c_str());
-	//std::cout  << "Load result: " << result.description() << ", sheet name: " << doc.child("SpriteSheet").attribute("name").value() << std::endl;
 }
 
 Resource::~Resource(){
@@ -71,26 +67,44 @@ void Resource::loadAllTiles(){
 		return;
 	}
 
-	tileClipList = new SDL_Rect*[(int)TILE_TYPE_COUNT];	
-	
-	SDL_Surface* tileSheet_surface = IMG_Load( TILE_SPRITE_MAP.c_str() );
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(CONFIG_FILE.c_str());
+	std::cout  << "Load result: " << result.description() << ", sheet name: " << doc.child("SpriteSheet").attribute("name").value() << std::endl;
+
+	pugi::xml_node sheet = doc.find_child_by_attribute("name", TILE_SPRITE_MAP.c_str());
+	//if(sheet.attribute("structured").as_bool()){	
+		//SpriteSheet node contains spacing information
+		bool structured = sheet.attribute("structured").as_bool();
+		int rows = sheet.attribute("rows").as_int();
+		int cols = sheet.attribute("cols").as_int();
+		int width = sheet.attribute("width").as_int();
+		int height = sheet.attribute("height").as_int();
+
+
+
+	//}else{
+		//Sprite node contains absolute position
+	//}
+
+	tileClipList = new SDL_Rect*[width*height];
+	std::string sheetPathName = image_path + sheet.attribute("name").value();
+	SDL_Surface* tileSheet_surface = IMG_Load( sheetPathName.c_str() );
 	tileSheet = SDL_CreateTextureFromSurface(renderer, tileSheet_surface);
 	SDL_FreeSurface(tileSheet_surface);
-	
 	//Initialize the rectangles that are blitting the
 	//	loaded image
-	for( int i = 0; i < TILE_TILEMAP_ROWS; i++){
-		for( int j = 0; j < TILE_TILEMAP_COLS; j++ ){
-			int pos = i * TILE_TILEMAP_COLS + j;
-
-			SDL_Rect* thisTileRect = new SDL_Rect();
-			thisTileRect->w = TILE_WIDTH;
-			thisTileRect->h = TILE_HEIGHT;
-			thisTileRect->x = j*TILE_WIDTH;
-			thisTileRect->y = i*TILE_HEIGHT;
-			tileClipList[pos] = thisTileRect;
-		}
+	for( pugi::xml_node sprite = sheet.child("Sprite"); sprite; sprite = sprite.next_sibling("Sprite") ){
+		const int x = sprite.attribute("x").as_int();
+		const int y = sprite.attribute("y").as_int();
+		const int pos = y * cols + x;
+		SDL_Rect* thisTileRect = new SDL_Rect();
+		thisTileRect->w = width;
+		thisTileRect->h = height;
+		thisTileRect->x = x*width;
+		thisTileRect->y = y*height;
+		tileClipList[pos] = thisTileRect;
 	}
+
 }
 
 void Resource::freeTiles(){

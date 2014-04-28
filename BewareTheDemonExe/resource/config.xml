@@ -1,3 +1,16 @@
-<SpriteSheet name="sheet.bmp">
-    <Sprite name="sprite" x="10" y="10" />
+<SpriteSheet name="tiles.png" structured="true" rows="3" cols="4" width="64" height="30">
+    <Sprite name="red"      x="0" y="0" />
+    <Sprite name="top_left" x="1" y="0" />
+    <Sprite name="top"      x="2" y="0" />
+    <Sprite name="top_right" x="3" y="0" />
+    
+    <Sprite name="green"    x="0" y="1" />
+    <Sprite name="left"     x="1" y="1" />
+    <Sprite name="center"   x="2" y="1" />
+    <Sprite name="right"    x="3" y="1" />
+    
+    <Sprite name="blue"     x="0" y="2" />
+    <Sprite name="bottom_left"  x="1" y="2" />
+    <Sprite name="bottom"       x="2" y="2" />
+    <Sprite name="bottom_right" x="3" y="2" />
 </SpriteSheet>
