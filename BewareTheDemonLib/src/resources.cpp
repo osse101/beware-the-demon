@@ -18,29 +18,46 @@ void Resource::registerRenderer(SDL_Renderer* renderer){
 Resource::Resource(){
 	tileClipList = NULL;
 	tileSheet = NULL;
-	musicList = new std::map<std::string, Mix_Music*>();
-	soundList = new std::map<std::string, Mix_Chunk*>();
-	imageList = new std::map<std::string, SDL_Texture*>();
+	musicList = new musicMap();
+	soundList = new soundMap();
+	imageList = new imageMap();
+	spriteSheetList = new spriteSheetMap();
 }
 
 Resource::~Resource(){
 	freeTiles();
 	
-	for( std::map<std::string, Mix_Music*>::iterator i = musicList->begin(); i != musicList->end(); i++ ){
+	for( musicMap::iterator i = musicList->begin(); i != musicList->end(); i++ ){
 		Mix_FreeMusic( i->second );
 	}
 	delete musicList;
 
-	for( std::map<std::string, Mix_Chunk*>::iterator i = soundList->begin(); i != soundList->end(); i++ ){
+	for( soundMap::iterator i = soundList->begin(); i != soundList->end(); i++ ){
 		Mix_FreeChunk( i->second );
 	}
 	delete soundList;
 
-	for( std::map<std::string, SDL_Texture*>::iterator i = imageList->begin(); i != imageList->end(); i++ ){
+	for( imageMap::iterator i = imageList->begin(); i != imageList->end(); i++ ){
 		SDL_DestroyTexture(i->second);
 	}
 	delete imageList;
 
+	for( spriteSheetMap::iterator i = spriteSheetList->begin(); i != spriteSheetList->end(); i++ ){
+		delete i->second;	//textures are shared with imageList and deleted there
+	}
+	delete spriteSheetList;
+}
+
+SDL_Texture* loadImage( std::string imageName, std::string spriteSheetName ){
+
+
+
+	return NULL;
+}
+
+void freeImage( std::string imageName, std::string spriteSheetName ){
+
+	return;
 }
 
 void Resource::loadAllTiles(){

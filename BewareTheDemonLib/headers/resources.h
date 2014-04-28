@@ -9,6 +9,11 @@
 #include <map>
 #include <string>
 
+typedef std::map<std::string, Mix_Music*> musicMap;
+typedef std::map<std::string, Mix_Chunk*> soundMap;
+typedef std::map<std::string, SDL_Texture*> imageMap;
+typedef std::map< std::string, imageMap* > spriteSheetMap;
+
 class Resource{
 public:
 	static Resource* getInstance();
@@ -21,9 +26,11 @@ public:
 	Mix_Chunk* loadSound( std::string soundName );
 	TTF_TEXT* loadText( std::string fontName, std::string text, int fontSize, SDL_Color color, int textX, int textY );
 	SDL_Texture* loadImage( std::string imageName );
+	SDL_Texture* loadImage( std::string imageName, std::string spriteSheetName );
 	void freeMusic( std::string musicName);
 	void freeSound( std::string soundName);
 	void freeImage( std::string imageName );
+	void freeImage( std::string imageName, std::string spriteSheetName );
 
 	void freeTiles();
 	void freePlayer();
@@ -39,9 +46,10 @@ protected:
 	Resource();
 	
 private:
-	std::map<std::string, Mix_Music*>* musicList;
-	std::map<std::string, Mix_Chunk*>* soundList;
-	std::map<std::string, SDL_Texture*>* imageList;
+	musicMap* musicList;
+	soundMap* soundList;
+	imageMap* imageList;
+	spriteSheetMap* spriteSheetList;
 	SDL_Texture* tileSheet;
 	SDL_Rect** tileClipList;
 
