@@ -84,6 +84,9 @@
     <ClInclude Include="headers\util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\spritesheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\audioManager.cpp">
@@ -138,6 +141,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\third_party\pugixml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\spritesheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

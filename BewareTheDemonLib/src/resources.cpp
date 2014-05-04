@@ -13,79 +13,49 @@ Resource* Resource::getInstance(){
 
 void Resource::registerRenderer(SDL_Renderer* renderer){
 	Resource::renderer = renderer;
+	SpriteSheet::registerRenderer(renderer);
 }
 
 Resource::Resource(){
-	tileClipList = NULL;
-	tileSheet = NULL;
-	musicList = new std::map<std::string, Mix_Music*>();
-	soundList = new std::map<std::string, Mix_Chunk*>();
-	imageList = new std::map<std::string, SDL_Texture*>();
+	musicList = new musicMap();
+	soundList = new soundMap();
+	imageList = new imageMap();
 }
 
 Resource::~Resource(){
-	freeTiles();
 	
-	for( std::map<std::string, Mix_Music*>::iterator i = musicList->begin(); i != musicList->end(); i++ ){
+	for( musicMap::iterator i = musicList->begin(); i != musicList->end(); i++ ){
 		Mix_FreeMusic( i->second );
 	}
 	delete musicList;
 
-	for( std::map<std::string, Mix_Chunk*>::iterator i = soundList->begin(); i != soundList->end(); i++ ){
+	for( soundMap::iterator i = soundList->begin(); i != soundList->end(); i++ ){
 		Mix_FreeChunk( i->second );
 	}
 	delete soundList;
 
-	for( std::map<std::string, SDL_Texture*>::iterator i = imageList->begin(); i != imageList->end(); i++ ){
+	for( imageMap::iterator i = imageList->begin(); i != imageList->end(); i++ ){
 		SDL_DestroyTexture(i->second);
 	}
 	delete imageList;
-
 }
 
-void Resource::loadAllTiles(){
-	if( tileSheet != NULL ){
-		std::cout << "Tiles are already loaded!" << std::endl;
-		return;
+SDL_Texture* Resource::loadImage( std::string imageName, std::string spriteSheetName, SDL_Rect*& imageRect ){
+	SpriteSheet* sheet = SpriteSheet::loadSpriteSheet(spriteSheetName);
+	if(sheet==NULL){
+		//TODO: Debug Log Here
+		return NULL;
 	}
 
-	tileClipList = new SDL_Rect*[(int)TILE_TYPE_COUNT];	
-	
-	SDL_Surface* tileSheet_surface = IMG_Load( TILE_SPRITE_MAP.c_str() );
-	tileSheet = SDL_CreateTextureFromSurface(renderer, tileSheet_surface);
-	SDL_FreeSurface(tileSheet_surface);
-	
-	//Initialize the rectangles that are blitting the
-	//	loaded image
-	for( int i = 0; i < TILE_TILEMAP_ROWS; i++){
-		for( int j = 0; j < TILE_TILEMAP_COLS; j++ ){
-			int pos = i * TILE_TILEMAP_COLS + j;
-
-			SDL_Rect* thisTileRect = new SDL_Rect();
-			thisTileRect->w = TILE_WIDTH;
-			thisTileRect->h = TILE_HEIGHT;
-			thisTileRect->x = j*TILE_WIDTH;
-			thisTileRect->y = i*TILE_HEIGHT;
-			tileClipList[pos] = thisTileRect;
-		}
-	}
+	imageRect = sheet->spriteList->at(imageName);
+	return sheet->spriteSheet;
 }
 
-void Resource::freeTiles(){
-	if( tileClipList != NULL ){
-		for( int i = 0; i < (int)TILE_TYPE_COUNT-1; i++ ){  //NULL tile is not created as a surface
-			if( tileClipList[i] != NULL ){
-				delete tileClipList[i];
-			}
-		}
-		delete [] tileClipList;
-		tileClipList = NULL;
-	}
-	if( tileSheet != NULL ){
-		SDL_DestroyTexture( tileSheet );
-		tileSheet = NULL;
-	}
+void Resource::freeImage( std::string imageName, std::string spriteSheetName ){
+	SpriteSheet::unloadSpriteSheet(spriteSheetName);
+	return;
 }
+
 
 SDL_Texture* Resource::loadImage( std::string imageName ){
 	SDL_Texture* loadedImage = NULL;

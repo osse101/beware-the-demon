@@ -58,7 +58,7 @@ void GameView::stateChange(GameState newState){
 	//Update the local state value
 	state = newState;
 	Resource* r = Resource::getInstance();
-
+	SpriteSheet* s = NULL;
 	switch(state){
 	case GAME_BEGIN:
 		//Initialize things
@@ -83,9 +83,9 @@ void GameView::stateChange(GameState newState){
 			r->freeImage(MAINMENU_BACKGROUND);
 
 			//Load tiles and player
-			r->loadAllTiles();
-			tileSpriteSheet = r->getTiles();
-			tileClipList = r->getTileClips();
+			s = SpriteSheet::loadSpriteSheet(TILE_SPRITE_MAP.c_str());
+			tileSpriteSheet = s->spriteSheet;
+			tileClipList = s->clips;
 			break;
 
 		default:

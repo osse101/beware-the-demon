@@ -14,6 +14,9 @@ const std::string bin_path = "bin\\";
 const std::string header_path = "headers\\";
 const std::string src_path = "src\\";
 
+//Config file
+const std::string CONFIG_FILE = resource_path + "config.xml";
+
 //Screen constants
 const int SCREEN_WIDTH = 750;
 const int SCREEN_HEIGHT = 500;
@@ -29,7 +32,7 @@ const float ISO_ROTATION_ANGLE_IN_RADS = 45*PI/180;
 const float ISO_ROTATION_VALUE = cos(ISO_ROTATION_ANGLE_IN_RADS);
 
 //Tile constants
-const std::string TILE_SPRITE_MAP = image_path+"tiles.png";
+const std::string TILE_SPRITE_MAP = "tiles.png";
 const std::string WALL_TILE_SPRITE = image_path+"wallTile.png";
 const std::string DOOR_SPRITE = image_path+"doorsprite.jpg";
 const std::string FLOOR_TILE_SPRITE = image_path+"floorTile.png";

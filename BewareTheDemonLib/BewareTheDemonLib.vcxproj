@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir)headers;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_ttf-2.0.12\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_mixer-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_image-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\pugixml\src;$(ProjectDir)headers;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_ttf-2.0.12\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_mixer-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_image-2.0.0\include;$(SolutionDir)third_party\SDL2-2.0.0\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)third_party\SDL2-2.0.0\SDL2_ttf-2.0.12\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_mixer-2.0.0\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\SDL2_image-2.0.0\lib\x86;$(SolutionDir)third_party\SDL2-2.0.0\lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)lib;$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,6 +95,7 @@
     <ClInclude Include="headers\mapmanager.h" />
     <ClInclude Include="headers\player.h" />
     <ClInclude Include="headers\resources.h" />
+    <ClInclude Include="headers\spritesheet.h" />
     <ClInclude Include="headers\stdafx.h" />
     <ClInclude Include="headers\targetver.h" />
     <ClInclude Include="headers\tile.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="headers\util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\third_party\pugixml\src\pugixml.cpp" />
     <ClCompile Include="src\audioManager.cpp" />
     <ClCompile Include="src\basicframe.cpp" />
     <ClCompile Include="src\dungeonbuilder.cpp" />
@@ -116,6 +118,7 @@
     <ClCompile Include="src\mapmanager.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\resources.cpp" />
+    <ClCompile Include="src\spritesheet.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\tile.cpp" />
     <ClCompile Include="src\timer.cpp" />
