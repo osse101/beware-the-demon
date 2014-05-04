@@ -13,20 +13,16 @@ Resource* Resource::getInstance(){
 
 void Resource::registerRenderer(SDL_Renderer* renderer){
 	Resource::renderer = renderer;
+	SpriteSheet::registerRenderer(renderer);
 }
 
 Resource::Resource(){
-	tileClipList = NULL;
-	tileSheet = NULL;
 	musicList = new musicMap();
 	soundList = new soundMap();
 	imageList = new imageMap();
-	spriteSheetList = new spriteSheetMap();
-
 }
 
 Resource::~Resource(){
-	freeTiles();
 	
 	for( musicMap::iterator i = musicList->begin(); i != musicList->end(); i++ ){
 		Mix_FreeMusic( i->second );
@@ -42,86 +38,24 @@ Resource::~Resource(){
 		SDL_DestroyTexture(i->second);
 	}
 	delete imageList;
+}
 
-	for( spriteSheetMap::iterator i = spriteSheetList->begin(); i != spriteSheetList->end(); i++ ){
-		delete i->second;	//textures are shared with imageList and deleted there
+SDL_Texture* Resource::loadImage( std::string imageName, std::string spriteSheetName, SDL_Rect*& imageRect ){
+	SpriteSheet* sheet = SpriteSheet::loadSpriteSheet(spriteSheetName);
+	if(sheet==NULL){
+		//TODO: Debug Log Here
+		return NULL;
 	}
-	delete spriteSheetList;
+
+	imageRect = sheet->spriteList->at(imageName);
+	return sheet->spriteSheet;
 }
 
-SDL_Texture* loadImage( std::string imageName, std::string spriteSheetName ){
-
-
-
-	return NULL;
-}
-
-void freeImage( std::string imageName, std::string spriteSheetName ){
-
+void Resource::freeImage( std::string imageName, std::string spriteSheetName ){
+	SpriteSheet::unloadSpriteSheet(spriteSheetName);
 	return;
 }
 
-void Resource::loadAllTiles(){
-	if( tileSheet != NULL ){
-		std::cout << "Tiles are already loaded!" << std::endl;
-		return;
-	}
-
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file(CONFIG_FILE.c_str());
-	std::cout  << "Load result: " << result.description() << ", sheet name: " << doc.child("SpriteSheet").attribute("name").value() << std::endl;
-
-	pugi::xml_node sheet = doc.find_child_by_attribute("name", TILE_SPRITE_MAP.c_str());
-	//if(sheet.attribute("structured").as_bool()){	
-		//SpriteSheet node contains spacing information
-		bool structured = sheet.attribute("structured").as_bool();
-		int rows = sheet.attribute("rows").as_int();
-		int cols = sheet.attribute("cols").as_int();
-		int width = sheet.attribute("width").as_int();
-		int height = sheet.attribute("height").as_int();
-
-
-
-	//}else{
-		//Sprite node contains absolute position
-	//}
-
-	tileClipList = new SDL_Rect*[width*height];
-	std::string sheetPathName = image_path + sheet.attribute("name").value();
-	SDL_Surface* tileSheet_surface = IMG_Load( sheetPathName.c_str() );
-	tileSheet = SDL_CreateTextureFromSurface(renderer, tileSheet_surface);
-	SDL_FreeSurface(tileSheet_surface);
-	//Initialize the rectangles that are blitting the
-	//	loaded image
-	for( pugi::xml_node sprite = sheet.child("Sprite"); sprite; sprite = sprite.next_sibling("Sprite") ){
-		const int x = sprite.attribute("x").as_int();
-		const int y = sprite.attribute("y").as_int();
-		const int pos = y * cols + x;
-		SDL_Rect* thisTileRect = new SDL_Rect();
-		thisTileRect->w = width;
-		thisTileRect->h = height;
-		thisTileRect->x = x*width;
-		thisTileRect->y = y*height;
-		tileClipList[pos] = thisTileRect;
-	}
-
-}
-
-void Resource::freeTiles(){
-	if( tileClipList != NULL ){
-		for( int i = 0; i < (int)TILE_TYPE_COUNT-1; i++ ){  //NULL tile is not created as a surface
-			if( tileClipList[i] != NULL ){
-				delete tileClipList[i];
-			}
-		}
-		delete [] tileClipList;
-		tileClipList = NULL;
-	}
-	if( tileSheet != NULL ){
-		SDL_DestroyTexture( tileSheet );
-		tileSheet = NULL;
-	}
-}
 
 SDL_Texture* Resource::loadImage( std::string imageName ){
 	SDL_Texture* loadedImage = NULL;

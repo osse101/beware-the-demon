@@ -95,6 +95,7 @@
     <ClInclude Include="headers\mapmanager.h" />
     <ClInclude Include="headers\player.h" />
     <ClInclude Include="headers\resources.h" />
+    <ClInclude Include="headers\spritesheet.h" />
     <ClInclude Include="headers\stdafx.h" />
     <ClInclude Include="headers\targetver.h" />
     <ClInclude Include="headers\tile.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="src\mapmanager.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\resources.cpp" />
+    <ClCompile Include="src\spritesheet.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\tile.cpp" />
     <ClCompile Include="src\timer.cpp" />
